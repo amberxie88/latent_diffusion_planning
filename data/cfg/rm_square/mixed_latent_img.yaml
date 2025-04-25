@@ -1,0 +1,70 @@
+_target_: data.robomimic_mixed_latent_data.RobomimicMixedLatentData
+name: rm_square_img_mixed_latent_img64
+
+# infra
+batch_size: ${batch_size}
+n_workers: ${n_workers}
+obs_horizon: ${obs_horizon}
+prefetch_factor: 2
+seq_length: ${horizon}
+
+# data paths
+train_paths: [YOUR_PATH, YOUR_PATH]
+eval_paths: YOUR_PATH
+train_latent_paths: [YOUR_PATH, YOUR_PATH]
+eval_latent_paths: YOUR_PATH
+train_n_episode_overfit: [null, null] # override this!
+eval_n_episode_overfit: 10
+train_split: 0.5
+eval_split: 0.5
+
+meta:
+  lowdim_obs: [robot0_eef_pos, robot0_eef_quat, robot0_gripper_qpos]
+  rgb_obs: [latent_agentview_image]
+  rgb_viz: agentview_image
+  shape_meta:
+    ac_dim: 7
+    all_shapes:
+      robot0_eef_pos: [3]
+      robot0_eef_quat: [4]
+      robot0_eye_in_hand_image: [64, 64, 3]
+      agentview_image: [64, 64, 3]
+      robot0_gripper_qpos: [2]
+      optimal: [1]
+    use_images: True
+  obs_normalization:
+    obs:
+      object:
+        min: [-0.023, -0.461, 0.759, -0.661, -0.614, -0.729, -1.099, -0.115, -0.11, 0.004, -1.1, -1.1, -0.877, 0]
+        max: [0.316, 0.5, 1.293, 0.704, 0.774, 1.1, 1.1, 0.307, 0.378, 0.362, 1.098, 1.1, 0.601, 0.915]
+      robot0_eef_pos:
+        min: [-0.081, -0.465, 0.774]
+        max: [0.326, 0.454, 1.347]
+      robot0_eef_quat:
+        min: [0.532, -0.809, -0.251, -0.377]
+        max: [1.1, 0.52, 0.152, 0.089]
+      robot0_gripper_qpos:
+        min: [0.014, -0.044]
+        max: [0.045, -0.011]
+      agentview_image:
+        min: 0
+        max: 255
+      robot0_eye_in_hand_image:
+        min: 0
+        max: 255
+      optimal:
+        min: 0
+        max: 1
+    actions:
+      clip_min: -1
+      clip_max: 1
+
+env_params:
+  obs_horizon: ${obs_horizon}
+  rgb_viz: ${data.meta.rgb_viz}
+  env_kwargs:
+    lowdim_obs: ${data.meta.lowdim_obs}
+    rgb_obs: ${data.meta.rgb_obs}
+    render: false
+    render_offscreen: true
+    horizon: 400

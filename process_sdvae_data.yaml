@@ -1,0 +1,32 @@
+defaults:
+  - data: cfg/rm_square/img 
+  - model: stable_vae_model
+
+# SD-VAE
+pretrain_path: null
+restore_snapshot_path: null
+shard: 128
+
+# experiment
+experiment_folder: test
+experiment_name: test
+
+# data param
+horizon: 16
+obs_horizon: 1
+action_horizon: 1
+lowdim_obs: [robot0_eef_pos, robot0_eef_quat, robot0_gripper_qpos]
+rgb_obs: [agentview_image, robot0_eye_in_hand_image]
+batch_size: 256
+n_workers: 4
+
+# misc
+seed: 1
+save_video: false
+use_tb: true
+use_wandb: false
+name: process_sdvae_data
+
+hydra:
+  run:
+    dir: ./experiments/${experiment_folder}/${experiment_name}

@@ -1,0 +1,25 @@
+defaults:
+  - train_bc
+  - _self_
+
+folder_tag: 1
+eval_tag: test
+after: 0 # only reload snapshots after this many steps
+before: -1
+use_ema: false
+
+# eval params (overrides)
+n_videos: 5
+n_eval_episodes: 50
+n_eval_processes: 5
+seed: 1111111
+restore_idm_snapshot_path: null
+batch_size: 16
+
+eval_type: default
+
+name: eval_bc
+
+hydra:
+  run:
+    dir: ./experiments/${experiment_folder}_eval${folder_tag}/${experiment_name}_${eval_tag}

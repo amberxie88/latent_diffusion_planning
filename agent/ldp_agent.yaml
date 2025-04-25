@@ -1,0 +1,68 @@
+_target_: agent.ldp_agent.LDPAgent
+name: ldp_agent
+
+vae_pretrain_path: null
+vae_feature_dim: 16
+
+planner:
+  _target_: networks.diffusion_nets_v2.ConditionalUnet1D
+  input_dim: ??? # to be specified later
+  global_cond_dim: ??? # to be specified later
+  diffusion_step_embed_dim: 256
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  downsample: True
+
+idm_net:
+  _target_: networks.mlp_diffusion_nets.MLPResNet
+  n_blocks: 3
+  out_dim: ??? # to be specified later
+  dropout_rate: null
+  use_layer_norm: True
+  hidden_dim: 256
+
+preprocess_time:
+  _target_: networks.diffusion.FourierFeatures
+  output_size: 256 # time dim
+  learnable: False
+
+cond_encoder:
+  _target_: networks.mlp_nets.MLP
+  hidden_dims: [256, 256]
+  activations: mish
+  activate_final: False
+
+# training
+use_planner: True
+use_idm: True 
+
+# policy input
+lowdim_obs: ${data.meta.lowdim_obs}
+rgb_obs: ${data.meta.rgb_obs}
+data_name: ${data.name}
+obs_normalization: ${data.meta.obs_normalization}
+
+# policy details
+obs_horizon: ${obs_horizon}
+pred_horizon: ${eval:'${horizon}-1'}
+action_horizon: ${action_horizon}
+planner_n_diffusion_steps: 100 # maybe change?
+idm_n_diffusion_steps: 100
+
+# training
+alpha_planner: 1
+alpha_idm: 1
+update_planner_every: 1
+update_planner_until: -1
+update_planner_after: -1
+update_idm_every: 1
+update_idm_after: -1
+lr: ${lr}
+end_lr: ${end_lr}
+idm_lr: ${lr}
+idm_end_lr: ${end_lr}
+
+warmup_steps: ${warmup_steps}
+decay_steps: ${n_grad_steps}
+grad_clip: 100 # rlly high so it never activates

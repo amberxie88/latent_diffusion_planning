@@ -1,0 +1,31 @@
+_target_: model.stable_vae_model.StableVAEModel
+name: stable_vae_model
+
+vae:
+  _target_: diffusers.FlaxAutoencoderKL
+  act_fn: silu
+  block_out_channels: [128, 256, 256, 256, 256, 256]
+  down_block_types: [DownEncoderBlock2D, DownEncoderBlock2D, DownEncoderBlock2D, DownEncoderBlock2D, DownEncoderBlock2D, DownEncoderBlock2D]
+  in_channels: 3
+  latent_channels: 4
+  layers_per_block: 2
+  norm_num_groups: 32
+  out_channels: 3
+  sample_size: 84
+  scaling_factor: 0.18215
+  up_block_types: [UpDecoderBlock2D, UpDecoderBlock2D, UpDecoderBlock2D, UpDecoderBlock2D, UpDecoderBlock2D, UpDecoderBlock2D]
+
+# training
+use_kl: true
+beta: 0.00001
+
+# policy input
+rgb_obs: ${data.meta.rgb_obs}
+obs_normalization: ${data.meta.obs_normalization}
+data_name: ${data.name}
+
+lr: ${lr}
+end_lr: ${end_lr}
+warmup_steps: ${warmup_steps}
+decay_steps: ${n_grad_steps}
+ema_decay: 0.99

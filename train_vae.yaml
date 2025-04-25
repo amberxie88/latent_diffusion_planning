@@ -1,0 +1,46 @@
+defaults:
+  - data: cfg/rm_square/img64 
+  - model: stable_vae_model
+
+# experiment
+experiment_folder: test
+experiment_name: test
+
+# train params
+batch_size: 128
+n_workers: 2
+n_grad_steps: 300000
+log_every_step: 10
+dump_every_step: 200
+warmup_steps: 1000
+lr: 1e-4
+end_lr: 1e-6
+
+# eval params
+eval_every_step: 10000
+n_eval_episodes: 4
+n_eval_processes: 4
+render_video: false
+n_videos: 5
+save_verbose: false
+
+# data params
+horizon: 1
+obs_horizon: 1
+action_horizon: 1
+
+# snapshot
+snapshot_dir: ./ckpt
+save_every_step: 100000
+restore_snapshot_path: null
+
+# misc
+seed: 1
+save_video: false
+use_tb: true
+use_wandb: false
+name: train_first_stage
+
+hydra:
+  run:
+    dir: ./experiments/${experiment_folder}/${experiment_name}

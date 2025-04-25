@@ -1,0 +1,54 @@
+_target_: data.alohasim_data.ALOHASimData
+name: alohasim_cube_data
+
+# infra
+batch_size: ${batch_size}
+n_workers: ${n_workers}
+obs_horizon: ${obs_horizon}
+prefetch_factor: 2
+seq_length: ${horizon}
+hdf5_use_swmr: true
+
+# data paths
+train_path: YOUR_PATH
+eval_path: YOUR_PATH
+train_n_episode_overfit: null # override this!
+eval_n_episode_overfit: 10
+
+meta:
+  lowdim_obs: [qpos]
+  rgb_obs: [wrist64_image]
+  rgb_viz: wrist64_image
+  shape_meta:
+    ac_dim: 14
+    all_shapes:
+      qpos: [14]
+      qvel: [14]
+      optimal: [1]
+    use_images: True
+  obs_normalization:
+    obs:
+      qpos: 
+        min: [-0.01079, -1.7412 ,  0.65322, -0.01885, -0.90132, -0.00152, 0.08767, -0.49369, -1.74741, -0.0368 , -0.72513, -0.33 , -1.15083,  0.08986]
+        max: [0.00295, 0.00084, 1.47407, 0.09342, 0.42986, 1.74146, 1.02575, 0.4624 , 0.30437, 1.32953, 0.75156, 1.17165, 1.09885, 1.07227]
+      qvel:
+        min: [-0.01455, -12.05406,  -0.25664,  -0.36015,  -0.75513,  -1.51814, -1.37698,  -1.43693, -12.05406,  -1.54109,  -1.57477,  -0.52932, -2.12025,  -1.29385]
+        max: [0.02643, 0.68899, 0.46595, 0.49054, 7.0874 , 0.98754, 0.51162, 1.0063 , 1.13143, 0.42866, 1.49388, 7.44296, 2.2157 , 0.75949]
+      wrist64_image:
+        min: 0
+        max: 255
+      optimal:
+        min: 0
+        max: 1
+    actions:
+      min: [-0.01086, -1.74261,  0.65023, -0.01693, -0.91383, -0.00104, 0.     , -0.49434, -1.74904, -0.04081, -0.72305, -0.33   , -1.15162,  0.]
+      max: [0.004  , -0.001  ,  1.47011,  0.09594,  0.42287,  1.74092, 1.1    ,  0.46257,  0.30254,  1.32924,  0.75021,  1.16513, 1.09824,  1.1]
+
+env_params:
+  episode_len: 400
+  rgb_viz: ${data.meta.rgb_viz}
+  lowdim_obs: ${data.meta.lowdim_obs}
+  rgb_obs: ${data.meta.rgb_obs}
+  obs_horizon: ${obs_horizon}
+  env_kwargs:
+    task_name: sim_transfer_cube_scripted

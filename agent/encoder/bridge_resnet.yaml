@@ -1,0 +1,21 @@
+_target_: networks.resnet_v1.ResNetEncoder
+stage_sizes: [2, 2, 2, 2]
+block_cls: ResNetBlock
+feature_layers: []
+n_filters: 64
+dtype: float32 
+act: relu 
+conv: Conv
+norm: group
+add_spatial_coordinates: false
+pooling_method: spatial_softmax
+use_spatial_softmax: false
+softmax_temperature: 1.0
+use_multiplicative_cond: false
+n_spatial_blocks: 8
+use_film: false
+use_tanh: false
+use_simnorm: false
+use_simnorm_rescale: false
+use_sigmoid: false
+simnorm_dim: 8

@@ -1,0 +1,10 @@
+.ipynb_checkpoints/
+*.pyc
+__pycache__
+.vscode
+.DS_Store
+experiments/
+logs/
+diffusers/
+sftp-config.json
+*.tar.gz

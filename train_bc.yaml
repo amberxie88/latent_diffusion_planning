@@ -1,0 +1,48 @@
+defaults:
+  - agent: dp_agent
+  - data: cfg/rm_lift/img
+
+# experiment
+experiment_folder: test
+experiment_name: test
+
+# train params
+batch_size: 256
+n_workers: 2
+n_grad_steps: 500000
+log_every_step: 10
+dump_every_step: 200
+warmup_steps: 1000
+lr: 1e-4
+end_lr: 1e-6
+
+# eval params
+eval_every_step: 10000
+n_eval_episodes: 4
+n_eval_processes: 4
+render_video: false
+n_videos: 5
+save_verbose: false
+
+# data params
+horizon: 16
+obs_horizon: 1
+action_horizon: 8
+idm_horizon: 4
+
+# snapshot
+snapshot_dir: ./ckpt
+save_every_step: 100000
+restore_snapshot_path: null
+restore_keys: []
+
+# misc
+seed: 1
+save_video: false
+use_tb: true
+use_wandb: false
+name: train_bc
+
+hydra:
+  run:
+    dir: ./experiments/${experiment_folder}/${experiment_name}

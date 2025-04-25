@@ -1,0 +1,34 @@
+_target_: agent.dp_vae_agent.DPVAEAgent
+name: dp_vae_agent
+
+vae_pretrain_path: pcuenq/sd-vae-ft-mse-flax
+vae_feature_dim: null
+
+planner:
+  _target_: networks.diffusion_nets_v2.ConditionalUnet1D
+  input_dim: ??? # to be specified later
+  global_cond_dim: ??? # to be specified later
+  diffusion_step_embed_dim: 256
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  downsample: True
+
+# policy input
+lowdim_obs: ${data.meta.lowdim_obs}
+rgb_obs: ${data.meta.rgb_obs}
+obs_normalization: ${data.meta.obs_normalization}
+random_shift: 0
+
+# policy details
+obs_horizon: ${obs_horizon}
+pred_horizon: ${horizon}
+action_horizon: ${action_horizon}
+n_diffusion_steps: 100 # maybe change?
+
+lr: ${lr}
+end_lr: ${end_lr}
+warmup_steps: ${warmup_steps}
+decay_steps: ${n_grad_steps}
+use_ema: false
+planner_ema_decay: 0.99
