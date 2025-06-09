@@ -26,7 +26,7 @@ n_videos: 5
 save_verbose: false
 
 # data params
-horizon: 7
+horizon: 9
 obs_horizon: 1
 action_horizon: 4
 idm_horizon: 4
