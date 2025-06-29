@@ -154,7 +154,7 @@ def recursively_remove_unnecessary_keys(cfg, reloaded_cfg):
         cfg.pop(key_to_remove)
 
 OmegaConf.register_new_resolver("eval", eval, replace=True)
-@hydra.main(config_path='.', config_name='collect_rm_data')
+@hydra.main(config_path='.', config_name='collect_data')
 def main(cfg):
     root_dir = Path.cwd()
 
